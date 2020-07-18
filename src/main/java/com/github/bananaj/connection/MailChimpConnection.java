@@ -1075,7 +1075,7 @@ public class MailChimpConnection extends Connection {
     public SearchMembers searchMembers(String query, String listId) throws Exception {
 
         JSONObject jsonSearchMembers = new JSONObject(do_Get(
-                new URL("?query=" + query + (listId == null ? "" : "&list_id=" + listId)), getApikey()));
+                new URL(searchmembersendpoint + "?query=" + query + (listId == null ? "" : "&list_id=" + listId)), getApikey()));
 
         return new SearchMembers(this, jsonSearchMembers);
     }

@@ -3,8 +3,8 @@ apply plugin: "maven"
 apply plugin: "maven-publish"
 apply plugin: 'signing'
 
-group = 'com.github.banana-j'
-version = '0.6.4'
+group = 'com.github.paidaki'
+version = '0.6.6'
 
 description = 'A simple MailChimp API wrapper written in Java'
 
@@ -16,10 +16,12 @@ tasks.withType(JavaCompile) {
 }
 
 repositories {
+    mavenLocal()
     maven { url "https://repo.maven.apache.org/maven2" }
 }
 
 dependencies {
+    compile group: 'com.github.paidaki', name: 'bananaj', version: '0.6.6'
     compile group: 'commons-codec', name: 'commons-codec', version: '1.11'
     compile group: 'net.sourceforge.jexcelapi', name: 'jxl', version: '2.6.12'
     compile group: 'org.json', name: 'json', version: '20180130'

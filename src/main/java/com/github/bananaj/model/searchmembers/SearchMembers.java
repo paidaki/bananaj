@@ -5,31 +5,31 @@ import org.json.JSONObject;
 
 public class SearchMembers {
 
-    private ExactMatches exactMatches;
-    private FullSearch fullSearch;
+    private SearchMembersMatches exactMatches;
+    private SearchMembersMatches fullSearch;
 
     public SearchMembers(MailChimpConnection connection, JSONObject jsonObject) {
 
-        this.exactMatches = new ExactMatches(connection, jsonObject);
-        this.fullSearch = new FullSearch(connection, jsonObject);
+        this.exactMatches = new SearchMembersMatches(connection, jsonObject.getJSONObject("exact_matches"));
+        this.fullSearch = new SearchMembersMatches(connection, jsonObject.getJSONObject("full_search"));
     }
 
-    public ExactMatches getExactMatches() {
+    public SearchMembersMatches getExactMatches() {
 
         return exactMatches;
     }
 
-    public void setExactMatches(ExactMatches exactMatches) {
+    public void setExactMatches(SearchMembersMatches exactMatches) {
 
         this.exactMatches = exactMatches;
     }
 
-    public FullSearch getFullSearch() {
+    public SearchMembersMatches getFullSearch() {
 
         return fullSearch;
     }
 
-    public void setFullSearch(FullSearch fullSearch) {
+    public void setFullSearch(SearchMembersMatches fullSearch) {
 
         this.fullSearch = fullSearch;
     }

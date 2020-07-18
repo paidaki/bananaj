@@ -9,16 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ExactMatches {
+public class SearchMembersMatches {
 
     private List<Member> members = new ArrayList<>();
     private int totalItems;
 
-    public ExactMatches() {
+    public SearchMembersMatches() {
 
     }
 
-    public ExactMatches(MailChimpConnection connection, JSONObject jsonObject) {
+    public SearchMembersMatches(MailChimpConnection connection, JSONObject jsonObject) {
 
         Objects.requireNonNull(connection, "MailChimpConnection");
 
