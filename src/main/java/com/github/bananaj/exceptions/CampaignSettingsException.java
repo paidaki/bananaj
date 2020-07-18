@@ -6,23 +6,28 @@ package com.github.bananaj.exceptions;
 
 public class CampaignSettingsException extends Exception {
 
-    public CampaignSettingsException()  {
+    public CampaignSettingsException() {
+
         super("Invalid email address.");
     }
 
     public CampaignSettingsException(String message) {
+
         super(message);
     }
 
     public CampaignSettingsException(Throwable cause) {
+
         super(cause);
     }
 
     public CampaignSettingsException(String message, Throwable cause) {
+
         super(message, cause);
     }
 
     public CampaignSettingsException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

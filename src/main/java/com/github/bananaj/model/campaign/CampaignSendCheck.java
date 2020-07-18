@@ -4,67 +4,74 @@ import org.json.JSONObject;
 
 /**
  * A feedback item to review before sending a campaign
- *
  */
 public class CampaignSendCheck {
 
-	private int id;
-	private CampaignCheckType type;
-	private String heading;
-	private String details;
-	
-	public CampaignSendCheck(JSONObject jsonObj) {
-		id = jsonObj.getInt("id");
-		type = CampaignCheckType.valueOf(jsonObj.getString("type").toUpperCase());
-		heading = jsonObj.getString("heading");
-		details = jsonObj.getString("details");
-	}
+    private int id;
+    private CampaignCheckType type;
+    private String heading;
+    private String details;
 
-	public CampaignSendCheck() {
+    public CampaignSendCheck(JSONObject jsonObj) {
 
-	}
+        id = jsonObj.getInt("id");
+        type = CampaignCheckType.valueOf(jsonObj.getString("type").toUpperCase());
+        heading = jsonObj.getString("heading");
+        details = jsonObj.getString("details");
+    }
 
-	/**
-	 * @return The ID for the item
-	 */
-	public int getId() {
-		return id;
-	}
+    public CampaignSendCheck() {
 
-	/**
-	 * The item type
-	 * @return the item type
-	 */
-	public CampaignCheckType getType() {
-		return type;
-	}
+    }
 
-	/**
-	 * The heading for the item
-	 * @return the heading
-	 */
-	public String getHeading() {
-		return heading;
-	}
+    /**
+     * @return The ID for the item
+     */
+    public int getId() {
 
-	/**
-	 * Details about the item feedback
-	 * @return the details
-	 */
-	public String getDetails() {
-		return details;
-	}
+        return id;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return 
-				"id: " + getId() + System.lineSeparator() +
-				"type: " + getType().toString() + System.lineSeparator() +
-				"heading: " + getHeading() + System.lineSeparator() +
-				"details: ";
-	}
+    /**
+     * The item type
+     *
+     * @return the item type
+     */
+    public CampaignCheckType getType() {
 
+        return type;
+    }
+
+    /**
+     * The heading for the item
+     *
+     * @return the heading
+     */
+    public String getHeading() {
+
+        return heading;
+    }
+
+    /**
+     * Details about the item feedback
+     *
+     * @return the details
+     */
+    public String getDetails() {
+
+        return details;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+
+        return
+                "id: " + getId() + System.lineSeparator() +
+                        "type: " + getType().toString() + System.lineSeparator() +
+                        "heading: " + getHeading() + System.lineSeparator() +
+                        "details: ";
+    }
 }

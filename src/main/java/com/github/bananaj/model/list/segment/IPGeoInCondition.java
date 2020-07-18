@@ -1,148 +1,166 @@
 package com.github.bananaj.model.list.segment;
 
-import org.json.JSONObject;
-
 import com.github.bananaj.exceptions.ConditionException;
+import org.json.JSONObject;
 
 /**
  * Segment option condition condition_type for "IPGeoIn"
  */
 public class IPGeoInCondition implements AbstractCondition {
 
-	private ConditionType condition_type;
-	private Operator op;
-	private String field;
-	private String lng;
-	private String lat;
-	private Integer value;
-	private String addr;
+    private ConditionType condition_type;
+    private Operator op;
+    private String field;
+    private String lng;
+    private String lat;
+    private Integer value;
+    private String addr;
 
-	/**
-	 * Used when created a Condition locally with the Builder class
-	 * @see Builder
-	 * @param b
-	 */
+    /**
+     * Used when created a Condition locally with the Builder class
+     *
+     * @param b
+     * @see Builder
+     */
 
-	public IPGeoInCondition(Builder b) throws ConditionException {
-		if (b.condition_type == null) {
-			throw new ConditionException("A condition need a condition_type.");
-		}
+    public IPGeoInCondition(Builder b) throws ConditionException {
 
-		if (b.op == null) {
-			throw new ConditionException("A condition need an operator.");
-		}
+        if (b.condition_type == null) {
+            throw new ConditionException("A condition need a condition_type.");
+        }
 
-		if (b.field == null) {
-			throw new ConditionException("A condition need a field to operate on.");
-		}
+        if (b.op == null) {
+            throw new ConditionException("A condition need an operator.");
+        }
 
-		if (b.value == null) {
-			throw new ConditionException("A condition need a value to compare on.");
-		}
+        if (b.field == null) {
+            throw new ConditionException("A condition need a field to operate on.");
+        }
 
-		this.condition_type = b.condition_type;
-		this.op = b.op;
-		this.field = b.field;
-		this.value = b.value;
-		this.lng = b.lng;
-		this.lat = b.lat;
-		this.addr = b.addr;
-	}
+        if (b.value == null) {
+            throw new ConditionException("A condition need a value to compare on.");
+        }
 
-	public ConditionType getConditionType() {
-		return condition_type;
-	}
+        this.condition_type = b.condition_type;
+        this.op = b.op;
+        this.field = b.field;
+        this.value = b.value;
+        this.lng = b.lng;
+        this.lat = b.lat;
+        this.addr = b.addr;
+    }
 
-	public String getField() {
-		return field;
-	}
+    public ConditionType getConditionType() {
 
-	public Operator getOp() {
-		return op;
-	}
+        return condition_type;
+    }
 
-	public String getLng() {
-		return lng;
-	}
+    public String getField() {
 
-	public Integer getValue() {
-		return value;
-	}
+        return field;
+    }
 
-	public String getLat() {
-		return lat;
-	}
+    public Operator getOp() {
 
-	public String getAddr() {
-		return addr;
-	}
+        return op;
+    }
 
-	@Override
-	public JSONObject getJsonRepresentation(){
-		JSONObject condition = new JSONObject();
-		condition.put("condition_type", getConditionType().toString());
-		condition.put("op", getOp().toString());
-		condition.put("field", getField());
-		condition.put("value", getValue());
+    public String getLng() {
 
-		return condition;
-	}
+        return lng;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "    " + getJsonRepresentation().toString();
-	}
+    public Integer getValue() {
 
-	public static class Builder {
-		private ConditionType condition_type;
-		private Operator op;
-		private String field;
-		private String lng;
-		private String lat;
-		private Integer value;
-		private String addr;
+        return value;
+    }
 
-		public Builder conditionType(ConditionType condition_type) {
-			this.condition_type = condition_type;
-			return this;
-		}
+    public String getLat() {
 
-		public Builder field(String field) {
-			this.field = field;
-			return this;
-		}
+        return lat;
+    }
 
-		public Builder operator(Operator op) {
-			this.op = op;
-			return this;
-		}
+    public String getAddr() {
 
-		public Builder lng(String lng) {
-			this.lng = lng;
-			return this;
-		}
+        return addr;
+    }
 
-		public Builder lat(String lat) {
-			this.lat = lat;
-			return this;
-		}
+    @Override
+    public JSONObject getJsonRepresentation() {
 
-		public Builder value(Integer value) {
-			this.value = value;
-			return this;
-		}
+        JSONObject condition = new JSONObject();
+        condition.put("condition_type", getConditionType().toString());
+        condition.put("op", getOp().toString());
+        condition.put("field", getField());
+        condition.put("value", getValue());
 
-		public Builder addr(String addr) {
-			this.addr = addr;
-			return this;
-		}
+        return condition;
+    }
 
-		public IPGeoInCondition build() throws ConditionException {
-			return new IPGeoInCondition(this);
-		}
-	}
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
 
+        return "    " + getJsonRepresentation().toString();
+    }
+
+    public static class Builder {
+
+        private ConditionType condition_type;
+        private Operator op;
+        private String field;
+        private String lng;
+        private String lat;
+        private Integer value;
+        private String addr;
+
+        public Builder conditionType(ConditionType condition_type) {
+
+            this.condition_type = condition_type;
+            return this;
+        }
+
+        public Builder field(String field) {
+
+            this.field = field;
+            return this;
+        }
+
+        public Builder operator(Operator op) {
+
+            this.op = op;
+            return this;
+        }
+
+        public Builder lng(String lng) {
+
+            this.lng = lng;
+            return this;
+        }
+
+        public Builder lat(String lat) {
+
+            this.lat = lat;
+            return this;
+        }
+
+        public Builder value(Integer value) {
+
+            this.value = value;
+            return this;
+        }
+
+        public Builder addr(String addr) {
+
+            this.addr = addr;
+            return this;
+        }
+
+        public IPGeoInCondition build() throws ConditionException {
+
+            return new IPGeoInCondition(this);
+        }
+    }
 }

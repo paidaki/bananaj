@@ -1,26 +1,28 @@
 package com.github.bananaj.model.filemanager;
 
 public enum FileType {
-	
-	IMAGE("image"), 
-	FILE("file");
 
-	private String stringRepresentation;
-	
-	FileType(String stringRepresentation ) {
-		setStringRepresentation(stringRepresentation);
-	}
+    IMAGE("image"),
+    FILE("file");
 
-	@Override
-	public String toString() {
-		return stringRepresentation;
-	}
+    private String stringRepresentation;
 
-	/**
-	 * @param stringRepresentation Set the stringRepresentation for the enum constant.
-	 */
-	private void setStringRepresentation(String stringRepresentation) {
-		this.stringRepresentation = stringRepresentation;
-	}
-	
+    FileType(String stringRepresentation) {
+
+        setStringRepresentation(stringRepresentation);
+    }
+
+    @Override
+    public String toString() {
+
+        return stringRepresentation;
+    }
+
+    /**
+     * @param stringRepresentation Set the stringRepresentation for the enum constant.
+     */
+    private void setStringRepresentation(String stringRepresentation) {
+
+        this.stringRepresentation = stringRepresentation;
+    }
 }

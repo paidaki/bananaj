@@ -5,4 +5,5 @@ package com.github.bananaj.model.conversation;
  * Class for representing a conversation in MailChimp - NOT IMPLEMENTED YET
  */
 public class Conversation {
+
 }

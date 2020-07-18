@@ -1,33 +1,35 @@
 package com.github.bananaj.model.campaign;
 
 /**
- * 
+ *
  */
 public enum CampaignFeedbackSourceType {
 
-	API("api"),
-	EMAIL("email"),
-	SMS("sms"),
-	WEB("web"),
-	IOS("ios"),
-	ANDROID("android");
+    API("api"),
+    EMAIL("email"),
+    SMS("sms"),
+    WEB("web"),
+    IOS("ios"),
+    ANDROID("android");
 
-	private String stringRepresentation;
+    private String stringRepresentation;
 
-	CampaignFeedbackSourceType(String stringRepresentation) {
-		setStringRepresentation(stringRepresentation);
-	}
+    CampaignFeedbackSourceType(String stringRepresentation) {
 
-	@Override
-	public String toString() {
-		return stringRepresentation;
-	}
+        setStringRepresentation(stringRepresentation);
+    }
 
-	/**
-	 * @param stringRepresentation Set the stringRepresentation for the enum constant.
-	 */
-	private void setStringRepresentation(String stringRepresentation) {
-		this.stringRepresentation = stringRepresentation;
-	}
+    @Override
+    public String toString() {
 
+        return stringRepresentation;
+    }
+
+    /**
+     * @param stringRepresentation Set the stringRepresentation for the enum constant.
+     */
+    private void setStringRepresentation(String stringRepresentation) {
+
+        this.stringRepresentation = stringRepresentation;
+    }
 }

@@ -6,24 +6,28 @@ package com.github.bananaj.exceptions;
 
 public class EmailException extends Exception {
 
-	public EmailException()  {
-		super("Invalid email address.");
-	}
+    public EmailException() {
 
-	public EmailException(String message) {
-		super("Invalid email address: " + message);
-	}
+        super("Invalid email address.");
+    }
 
-	public EmailException(Throwable cause) {
-		super(cause);
-	}
+    public EmailException(String message) {
 
-	public EmailException(String message, Throwable cause) {
-		super(message, cause);
-	}
+        super("Invalid email address: " + message);
+    }
 
-	public EmailException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
+    public EmailException(Throwable cause) {
 
+        super(cause);
+    }
+
+    public EmailException(String message, Throwable cause) {
+
+        super(message, cause);
+    }
+
+    public EmailException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

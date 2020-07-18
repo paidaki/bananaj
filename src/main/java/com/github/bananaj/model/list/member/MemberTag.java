@@ -1,61 +1,67 @@
 package com.github.bananaj.model.list.member;
 
-import java.time.ZonedDateTime;
-
+import com.github.bananaj.utils.DateConverter;
 import org.json.JSONObject;
 
-import com.github.bananaj.utils.DateConverter;
+import java.time.ZonedDateTime;
 
 /**
  * A tag that has been assigned to a contact.
  */
 public class MemberTag {
-	private String name;
-	private Integer id;
-	private ZonedDateTime dateAdded;
 
-	public MemberTag(JSONObject jsonObj) {
-		name = jsonObj.getString("name");
-		id = jsonObj.getInt("id");
-		if (jsonObj.has("date_added")) {
-			dateAdded = DateConverter.fromISO8601(jsonObj.getString("date_added"));
-		}
-	}
+    private String name;
+    private Integer id;
+    private ZonedDateTime dateAdded;
 
-	public MemberTag(String tagName) {
-		name = tagName;
-		id = null;
-		dateAdded = null;
-	}
+    public MemberTag(JSONObject jsonObj) {
 
-	/**
-	 * @return The name of the tag.
-	 */
-	public String getName() {
-		return name;
-	}
+        name = jsonObj.getString("name");
+        id = jsonObj.getInt("id");
+        if (jsonObj.has("date_added")) {
+            dateAdded = DateConverter.fromISO8601(jsonObj.getString("date_added"));
+        }
+    }
 
-	/**
-	 * @return The unique id for the tag.
-	 */
-	public Integer getId() {
-		return id;
-	}
+    public MemberTag(String tagName) {
 
-	/**
-	 * @return The date and time the tag was added to the list member.
-	 */
-	public ZonedDateTime getDateAdded() {
-		return dateAdded;
-	}
+        name = tagName;
+        id = null;
+        dateAdded = null;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Tag: " + getId() + " " + getName();
-	}
+    /**
+     * @return The name of the tag.
+     */
+    public String getName() {
+
+        return name;
+    }
+
+    /**
+     * @return The unique id for the tag.
+     */
+    public Integer getId() {
+
+        return id;
+    }
+
+    /**
+     * @return The date and time the tag was added to the list member.
+     */
+    public ZonedDateTime getDateAdded() {
+
+        return dateAdded;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+
+        return "Tag: " + getId() + " " + getName();
+    }
 
 //	/**
 //	 * Helper method to convert JSON for mailchimp PATCH/POST operations

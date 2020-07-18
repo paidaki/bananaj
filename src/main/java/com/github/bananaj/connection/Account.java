@@ -1,370 +1,410 @@
 package com.github.bananaj.connection;
 
-import java.time.ZonedDateTime;
-
+import com.github.bananaj.utils.DateConverter;
 import org.json.JSONObject;
 
-import com.github.bananaj.utils.DateConverter;
+import java.time.ZonedDateTime;
 
 /**
  * The API root resource links to all other resources available in the API. Also includes details about the Mailchimp user account.
  */
 public class Account {
 
-	private MailChimpConnection connection;
-	private String id;
-	private String loginId;
-	private String accountName;
-	private String email;
-	private String firstName;
-	private String lastName;
-	private String username;
-	private String avatarUrl;
-	private String role;
-	private ZonedDateTime memberSince;
-	private PricingPlanType pricingPlanType;
-	private ZonedDateTime firstPayment;
-	private String accountTimezone;
-	private String accountIndustry;
-	private Contact contact;
-	private boolean proEnabled;
-	private ZonedDateTime lastLogin;
-	private int totalSubscribers;
-	private IndustryStats industryStats;
+    private MailChimpConnection connection;
+    private String id;
+    private String loginId;
+    private String accountName;
+    private String email;
+    private String firstName;
+    private String lastName;
+    private String username;
+    private String avatarUrl;
+    private String role;
+    private ZonedDateTime memberSince;
+    private PricingPlanType pricingPlanType;
+    private ZonedDateTime firstPayment;
+    private String accountTimezone;
+    private String accountIndustry;
+    private Contact contact;
+    private boolean proEnabled;
+    private ZonedDateTime lastLogin;
+    private int totalSubscribers;
+    private IndustryStats industryStats;
 
-	public Account(MailChimpConnection connection, JSONObject jsonObj) {
-		this.id = jsonObj.getString("account_id");
-		this.connection = connection;
-		this.loginId = jsonObj.getString("login_id");
-		this.accountName = jsonObj.getString("account_name");
-		this.email = jsonObj.getString("email");
-		this.firstName = jsonObj.getString("first_name");
-		this.lastName = jsonObj.getString("last_name");
-		this.username = jsonObj.getString("username");
-		this.avatarUrl = jsonObj.getString("avatar_url");
-		this.role = jsonObj.getString("role");
-		this.memberSince = DateConverter.fromISO8601(jsonObj.getString("member_since"));
-		this.pricingPlanType = PricingPlanType.valueOf(jsonObj.getString("pricing_plan_type").toUpperCase());
-		if (jsonObj.has("first_payment")) {
-			this.firstPayment = DateConverter.fromISO8601(jsonObj.getString("first_payment"));
-		}
-		this.accountTimezone = jsonObj.getString("account_timezone");
-		if (jsonObj.has("account_industry")) {
-			this.accountIndustry = jsonObj.getString("account_industry");
-		}
-		this.proEnabled = jsonObj.getBoolean("pro_enabled");
-		this.lastLogin = DateConverter.fromISO8601(jsonObj.getString("last_login"));
-		this.totalSubscribers = jsonObj.getInt("total_subscribers");
-		contact = new Contact(jsonObj.getJSONObject("contact"));
-		if (jsonObj.has("industry_stats")) {
-			industryStats = new IndustryStats(jsonObj.getJSONObject("industry_stats"));
-		}
-	}
+    public Account(MailChimpConnection connection, JSONObject jsonObj) {
 
-	/**
-	 * @return the {@link #connection}
-	 */
-	public MailChimpConnection getConnection() {
-		return connection;
-	}
+        this.id = jsonObj.getString("account_id");
+        this.connection = connection;
+        this.loginId = jsonObj.getString("login_id");
+        this.accountName = jsonObj.getString("account_name");
+        this.email = jsonObj.getString("email");
+        this.firstName = jsonObj.getString("first_name");
+        this.lastName = jsonObj.getString("last_name");
+        this.username = jsonObj.getString("username");
+        this.avatarUrl = jsonObj.getString("avatar_url");
+        this.role = jsonObj.getString("role");
+        this.memberSince = DateConverter.fromISO8601(jsonObj.getString("member_since"));
+        this.pricingPlanType = PricingPlanType.valueOf(jsonObj.getString("pricing_plan_type").toUpperCase());
+        if (jsonObj.has("first_payment")) {
+            this.firstPayment = DateConverter.fromISO8601(jsonObj.getString("first_payment"));
+        }
+        this.accountTimezone = jsonObj.getString("account_timezone");
+        if (jsonObj.has("account_industry")) {
+            this.accountIndustry = jsonObj.getString("account_industry");
+        }
+        this.proEnabled = jsonObj.getBoolean("pro_enabled");
+        this.lastLogin = DateConverter.fromISO8601(jsonObj.getString("last_login"));
+        this.totalSubscribers = jsonObj.getInt("total_subscribers");
+        contact = new Contact(jsonObj.getJSONObject("contact"));
+        if (jsonObj.has("industry_stats")) {
+            industryStats = new IndustryStats(jsonObj.getJSONObject("industry_stats"));
+        }
+    }
 
-	/**
-	 * @return The Mailchimp account ID, used for features like list subscribe forms.
-	 */
-	public String getId() {
-		return id;
-	}
-	
-	/**
-	 * The ID associated with the user who owns this API key. If you can login to
-	 * multiple accounts, this ID will be the same for each account.
-	 */
-	public String getLoginId() {
-		return loginId;
-	}
+    /**
+     * @return the {@link #connection}
+     */
+    public MailChimpConnection getConnection() {
 
-	/**
-	 * The name of the account
-	 */
-	public String getAccountName() {
-		return accountName;
-	}
+        return connection;
+    }
 
-	/**
-	 * The account email address
-	 */
-	public String getEmail() {
-		return email;
-	}
+    /**
+     * @return The Mailchimp account ID, used for features like list subscribe forms.
+     */
+    public String getId() {
 
-	/**
-	 * The first name tied to the account
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
+        return id;
+    }
 
-	/**
-	 * The last name tied to the account
-	 */
-	public String getLastName() {
-		return lastName;
-	}
+    /**
+     * The ID associated with the user who owns this API key. If you can login to
+     * multiple accounts, this ID will be the same for each account.
+     */
+    public String getLoginId() {
 
-	/**
-	 * The username tied to the account
-	 */
-	public String getUsername() {
-		return username;
-	}
+        return loginId;
+    }
 
-	/**
-	 * URL of the avatar for the user
-	 */
-	public String getAvatarUrl() {
-		return avatarUrl;
-	}
+    /**
+     * The name of the account
+     */
+    public String getAccountName() {
 
-	/**
-	 * The user role for the account
-	 */
-	public String getRole() {
-		return role;
-	}
+        return accountName;
+    }
 
-	/**
-	 * The date and time that the account was created
-	 */
-	public ZonedDateTime getMemberSince() {
-		return memberSince;
-	}
+    /**
+     * The account email address
+     */
+    public String getEmail() {
 
-	/**
-	 * The type of pricing plan the account is on
-	 */
-	public PricingPlanType getPricingPlanType() {
-		return pricingPlanType;
-	}
+        return email;
+    }
 
-	/**
-	 * Date of first payment for monthly plans
-	 */
-	public ZonedDateTime getFirstPayment() {
-		return firstPayment;
-	}
+    /**
+     * The first name tied to the account
+     */
+    public String getFirstName() {
 
-	/**
-	 * The timezone currently set for the account
-	 */
-	public String getAccountTimezone() {
-		return accountTimezone;
-	}
+        return firstName;
+    }
 
-	/**
-	 * The user-specified industry associated with the account
-	 */
-	public String getAccountIndustry() {
-		return accountIndustry;
-	}
+    /**
+     * The last name tied to the account
+     */
+    public String getLastName() {
 
-	/**
-	 * Whether the account includes Mailchimp Pro
-	 */
-	public boolean isProEnabled() {
-		return proEnabled;
-	}
+        return lastName;
+    }
 
-	/**
-	 * The date and time of the last login for this account 
-	 */
-	public ZonedDateTime getLastLogin() {
-		return lastLogin;
-	}
+    /**
+     * The username tied to the account
+     */
+    public String getUsername() {
 
-	/**
-	 * The total number of subscribers across all lists in the account
-	 */
-	public int getTotalSubscribers() {
-		return totalSubscribers;
-	}
+        return username;
+    }
 
-	/**
-	 * Information about the account contact
-	 */
-	public Contact getContact() {
-		return contact;
-	}
+    /**
+     * URL of the avatar for the user
+     */
+    public String getAvatarUrl() {
 
-	/**
-	 * The average campaign statistics for all campaigns in the account’s specified industry
-	 */
-	public IndustryStats getIndustryStats() {
-		return industryStats;
-	}
+        return avatarUrl;
+    }
 
-	@Override
-	public String toString() {
-		return "Id: " + getId() + System.lineSeparator() +
-				"Email: " + getEmail() + System.lineSeparator() +
-				"Account name: " + getAccountName() + System.lineSeparator() +
-				"Contact: " + getContact().toString() + System.lineSeparator() +
-				"User: " + getFirstName() + " " + getLastName() + " <" + getUsername() +">" + System.lineSeparator() +
-				"Last Login: " + getLastLogin() + System.lineSeparator() +
-				"Total subscribers: " + getTotalSubscribers() +
-				(getAccountIndustry() != null ? System.lineSeparator() + "Industry: " + getAccountIndustry() : "") +
-				(getIndustryStats() != null ? System.lineSeparator() + getIndustryStats().toString() : "");
-	}
+    /**
+     * The user role for the account
+     */
+    public String getRole() {
 
-	public enum PricingPlanType {
+        return role;
+    }
 
-		MONTHLY("monthly"), 
-		PAY_AS_YOU_GO("pay_as_you_go"), 
-		FOREVER_FREE("forever_free");
+    /**
+     * The date and time that the account was created
+     */
+    public ZonedDateTime getMemberSince() {
 
-		private String stringRepresentation;
+        return memberSince;
+    }
 
-		PricingPlanType(String stringRepresentation ) {
-			setStringRepresentation(stringRepresentation);
-		}
+    /**
+     * The type of pricing plan the account is on
+     */
+    public PricingPlanType getPricingPlanType() {
 
-		@Override
-		public String toString() {
-			return stringRepresentation;
-		}
+        return pricingPlanType;
+    }
 
-		/**
-		 * @param stringRepresentation Set the stringRepresentation for the enum constant.
-		 */
-		private void setStringRepresentation(String stringRepresentation) {
-			this.stringRepresentation = stringRepresentation;
-		}
-	}
+    /**
+     * Date of first payment for monthly plans
+     */
+    public ZonedDateTime getFirstPayment() {
 
-	public class Contact {
-		private String company;
-		private String address1;
-		private String address2;
-		private String city;
-		private String state;
-		private String zip;
-		private String country;
+        return firstPayment;
+    }
 
-		public Contact() {
+    /**
+     * The timezone currently set for the account
+     */
+    public String getAccountTimezone() {
 
-		}
+        return accountTimezone;
+    }
 
-		public Contact(JSONObject jsonObj) {
-			this.company = jsonObj.getString("company");
-			this.address1 = jsonObj.getString("addr1");
-			this.address2 = jsonObj.getString("addr2");
-			this.city = jsonObj.getString("city");
-			this.state = jsonObj.getString("state");
-			this.zip = jsonObj.getString("zip");
-			this.country = jsonObj.getString("country");
-		}
+    /**
+     * The user-specified industry associated with the account
+     */
+    public String getAccountIndustry() {
 
-		/**
-		 * The company name for the account
-		 */
-		public String getCompany() {
-			return company;
-		}
+        return accountIndustry;
+    }
 
-		/**
-		 * The street address for the account contact
-		 */
-		public String getAddress1() {
-			return address1;
-		}
+    /**
+     * Whether the account includes Mailchimp Pro
+     */
+    public boolean isProEnabled() {
 
-		/**
-		 * The street address for the account contact
-		 */
-		public String getAddress2() {
-			return address2;
-		}
+        return proEnabled;
+    }
 
-		/**
-		 * The city for the account contact
-		 */
-		public String getCity() {
-			return city;
-		}
+    /**
+     * The date and time of the last login for this account
+     */
+    public ZonedDateTime getLastLogin() {
 
-		/**
-		 * The state for the account contact
-		 */
-		public String getState() {
-			return state;
-		}
+        return lastLogin;
+    }
 
-		/**
-		 * The zip code for the account contact
-		 */
-		public String getZip() {
-			return zip;
-		}
+    /**
+     * The total number of subscribers across all lists in the account
+     */
+    public int getTotalSubscribers() {
 
-		/**
-		 * The country for the account contact
-		 */
-		public String getCountry() {
-			return country;
-		}
+        return totalSubscribers;
+    }
 
-		@Override
-		public String toString() {
-			return 
-					getCompany() + System.lineSeparator() +
-					getAddress1() + System.lineSeparator() +
-					(getAddress2().length() > 0 ? getAddress2() + System.lineSeparator() : "")+
-					getCity() + " " + getState() + " " + getZip() + " " + getCountry();
-		}
-	}
+    /**
+     * Information about the account contact
+     */
+    public Contact getContact() {
 
-	public class IndustryStats {
-		private double openRate;
-		private double bounceRate;
-		private double clickRate;
+        return contact;
+    }
 
-		public IndustryStats() {
+    /**
+     * The average campaign statistics for all campaigns in the account’s specified industry
+     */
+    public IndustryStats getIndustryStats() {
 
-		}
+        return industryStats;
+    }
 
-		public IndustryStats(JSONObject jsonObj) {
-			this.openRate = jsonObj.getDouble("open_rate");
-			this.bounceRate = jsonObj.getDouble("bounce_rate");
-			this.clickRate = jsonObj.getDouble("click_rate");
-		}
+    @Override
+    public String toString() {
 
-		/**
-		 * The average unique open rate for all campaigns in the account’s specified industry
-		 */
-		public double getOpenRate() {
-			return openRate;
-		}
+        return "Id: " + getId() + System.lineSeparator() +
+                "Email: " + getEmail() + System.lineSeparator() +
+                "Account name: " + getAccountName() + System.lineSeparator() +
+                "Contact: " + getContact().toString() + System.lineSeparator() +
+                "User: " + getFirstName() + " " + getLastName() + " <" + getUsername() + ">" + System.lineSeparator() +
+                "Last Login: " + getLastLogin() + System.lineSeparator() +
+                "Total subscribers: " + getTotalSubscribers() +
+                (getAccountIndustry() != null ? System.lineSeparator() + "Industry: " + getAccountIndustry() : "") +
+                (getIndustryStats() != null ? System.lineSeparator() + getIndustryStats().toString() : "");
+    }
 
-		/**
-		 * The average bounce rate for all campaigns in the account’s specified industry
-		 */
-		public double getBounceRate() {
-			return bounceRate;
-		}
+    public enum PricingPlanType {
 
-		/**
-		 * The average unique click rate for all campaigns in the account’s specified industry
-		 */
-		public double getClickRate() {
-			return clickRate;
-		}
+        MONTHLY("monthly"),
+        PAY_AS_YOU_GO("pay_as_you_go"),
+        FOREVER_FREE("forever_free");
 
-		@Override
-		public String toString() {
-			return
-					"Industry Stats:" + System.lineSeparator() +
-					"    Open Rate: " + getOpenRate() + System.lineSeparator() +
-					"    Click Rate: " + getClickRate() + System.lineSeparator() +
-					"    Bounce Rate: " + getBounceRate();
-		}
-	}
+        private String stringRepresentation;
+
+        PricingPlanType(String stringRepresentation) {
+
+            setStringRepresentation(stringRepresentation);
+        }
+
+        @Override
+        public String toString() {
+
+            return stringRepresentation;
+        }
+
+        /**
+         * @param stringRepresentation Set the stringRepresentation for the enum constant.
+         */
+        private void setStringRepresentation(String stringRepresentation) {
+
+            this.stringRepresentation = stringRepresentation;
+        }
+    }
+
+    public class Contact {
+
+        private String company;
+        private String address1;
+        private String address2;
+        private String city;
+        private String state;
+        private String zip;
+        private String country;
+
+        public Contact() {
+
+        }
+
+        public Contact(JSONObject jsonObj) {
+
+            this.company = jsonObj.getString("company");
+            this.address1 = jsonObj.getString("addr1");
+            this.address2 = jsonObj.getString("addr2");
+            this.city = jsonObj.getString("city");
+            this.state = jsonObj.getString("state");
+            this.zip = jsonObj.getString("zip");
+            this.country = jsonObj.getString("country");
+        }
+
+        /**
+         * The company name for the account
+         */
+        public String getCompany() {
+
+            return company;
+        }
+
+        /**
+         * The street address for the account contact
+         */
+        public String getAddress1() {
+
+            return address1;
+        }
+
+        /**
+         * The street address for the account contact
+         */
+        public String getAddress2() {
+
+            return address2;
+        }
+
+        /**
+         * The city for the account contact
+         */
+        public String getCity() {
+
+            return city;
+        }
+
+        /**
+         * The state for the account contact
+         */
+        public String getState() {
+
+            return state;
+        }
+
+        /**
+         * The zip code for the account contact
+         */
+        public String getZip() {
+
+            return zip;
+        }
+
+        /**
+         * The country for the account contact
+         */
+        public String getCountry() {
+
+            return country;
+        }
+
+        @Override
+        public String toString() {
+
+            return
+                    getCompany() + System.lineSeparator() +
+                            getAddress1() + System.lineSeparator() +
+                            (getAddress2().length() > 0 ? getAddress2() + System.lineSeparator() : "") +
+                            getCity() + " " + getState() + " " + getZip() + " " + getCountry();
+        }
+    }
+
+    public class IndustryStats {
+
+        private double openRate;
+        private double bounceRate;
+        private double clickRate;
+
+        public IndustryStats() {
+
+        }
+
+        public IndustryStats(JSONObject jsonObj) {
+
+            this.openRate = jsonObj.getDouble("open_rate");
+            this.bounceRate = jsonObj.getDouble("bounce_rate");
+            this.clickRate = jsonObj.getDouble("click_rate");
+        }
+
+        /**
+         * The average unique open rate for all campaigns in the account’s specified industry
+         */
+        public double getOpenRate() {
+
+            return openRate;
+        }
+
+        /**
+         * The average bounce rate for all campaigns in the account’s specified industry
+         */
+        public double getBounceRate() {
+
+            return bounceRate;
+        }
+
+        /**
+         * The average unique click rate for all campaigns in the account’s specified industry
+         */
+        public double getClickRate() {
+
+            return clickRate;
+        }
+
+        @Override
+        public String toString() {
+
+            return
+                    "Industry Stats:" + System.lineSeparator() +
+                            "    Open Rate: " + getOpenRate() + System.lineSeparator() +
+                            "    Click Rate: " + getClickRate() + System.lineSeparator() +
+                            "    Bounce Rate: " + getBounceRate();
+        }
+    }
 }

@@ -1,95 +1,105 @@
 package com.github.bananaj.model.list.segment;
 
-import org.json.JSONObject;
-
 import com.github.bananaj.exceptions.ConditionException;
+import org.json.JSONObject;
 
 /**
  * Segment option condition condition_type That only use operator and field
  */
 public class OpCondition implements AbstractCondition {
 
-	private ConditionType condition_type;
-	private String field;
-	private Operator operator;
+    private ConditionType condition_type;
+    private String field;
+    private Operator operator;
 
-	/**
-	 * Used when created a Condition locally with the Builder class
-	 * @see Builder
-	 * @param b
-	 */
+    /**
+     * Used when created a Condition locally with the Builder class
+     *
+     * @param b
+     * @see Builder
+     */
 
-	public OpCondition(Builder b) throws ConditionException{
-		if (b.condition_type == null) {
-			throw new ConditionException("A condition need a condition_type.");
-		}
+    public OpCondition(Builder b) throws ConditionException {
 
-		if (b.operator == null) {
-			throw new ConditionException("A condition need an operator.");
-		}
+        if (b.condition_type == null) {
+            throw new ConditionException("A condition need a condition_type.");
+        }
 
-		if (b.field == null) {
-			throw new ConditionException("A condition need a field to operate on.");
-		}
+        if (b.operator == null) {
+            throw new ConditionException("A condition need an operator.");
+        }
 
-		this.condition_type = b.condition_type;
-		this.operator = b.operator;
-		this.field = b.field;
-	}
+        if (b.field == null) {
+            throw new ConditionException("A condition need a field to operate on.");
+        }
 
-	public ConditionType getConditionType() {
-		return condition_type;
-	}
+        this.condition_type = b.condition_type;
+        this.operator = b.operator;
+        this.field = b.field;
+    }
 
-	public String getField() {
-		return field;
-	}
+    public ConditionType getConditionType() {
 
-	public Operator getOp() {
-		return operator;
-	}
+        return condition_type;
+    }
 
-	@Override
-	public JSONObject getJsonRepresentation(){
-		JSONObject condition = new JSONObject();
-		condition.put("condition_type", getConditionType().toString());
-		condition.put("op", getOp().toString());
-		condition.put("field", getField());
+    public String getField() {
 
-		return condition;
-	}
+        return field;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "    " + getJsonRepresentation().toString();
-	}
+    public Operator getOp() {
 
-	public static class Builder {
-		private ConditionType condition_type;
-		private String field;
-		private Operator operator;
+        return operator;
+    }
 
-		public Builder conditionType(ConditionType condition_type) {
-			this.condition_type = condition_type;
-			return this;
-		}
+    @Override
+    public JSONObject getJsonRepresentation() {
 
-		public Builder field(String field) {
-			this.field = field;
-			return this;
-		}
+        JSONObject condition = new JSONObject();
+        condition.put("condition_type", getConditionType().toString());
+        condition.put("op", getOp().toString());
+        condition.put("field", getField());
 
-		public Builder operator(Operator op) {
-			this.operator = op;
-			return this;
-		}
+        return condition;
+    }
 
-		public OpCondition build() throws ConditionException {
-			return new OpCondition(this);
-		}
-	}
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
 
+        return "    " + getJsonRepresentation().toString();
+    }
+
+    public static class Builder {
+
+        private ConditionType condition_type;
+        private String field;
+        private Operator operator;
+
+        public Builder conditionType(ConditionType condition_type) {
+
+            this.condition_type = condition_type;
+            return this;
+        }
+
+        public Builder field(String field) {
+
+            this.field = field;
+            return this;
+        }
+
+        public Builder operator(Operator op) {
+
+            this.operator = op;
+            return this;
+        }
+
+        public OpCondition build() throws ConditionException {
+
+            return new OpCondition(this);
+        }
+    }
 }

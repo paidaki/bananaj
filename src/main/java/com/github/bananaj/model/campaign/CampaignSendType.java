@@ -5,25 +5,27 @@ package com.github.bananaj.model.campaign;
  */
 public enum CampaignSendType {
 
-	HTML("html"),
-	PLAINTEXT("plaintext");
+    HTML("html"),
+    PLAINTEXT("plaintext");
 
-	private String stringRepresentation;
-	
-	CampaignSendType(String stringRepresentation ) {
-		setStringRepresentation(stringRepresentation);
-	}
+    private String stringRepresentation;
 
-	@Override
-	public String toString() {
-		return stringRepresentation;
-	}
+    CampaignSendType(String stringRepresentation) {
 
-	/**
-	 * @param stringRepresentation Set the stringRepresentation for the enum constant.
-	 */
-	private void setStringRepresentation(String stringRepresentation) {
-		this.stringRepresentation = stringRepresentation;
-	}
+        setStringRepresentation(stringRepresentation);
+    }
 
+    @Override
+    public String toString() {
+
+        return stringRepresentation;
+    }
+
+    /**
+     * @param stringRepresentation Set the stringRepresentation for the enum constant.
+     */
+    private void setStringRepresentation(String stringRepresentation) {
+
+        this.stringRepresentation = stringRepresentation;
+    }
 }

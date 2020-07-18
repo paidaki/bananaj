@@ -1,5 +1,9 @@
 package com.github.bananaj.model.filemanager;
 
+import com.github.bananaj.connection.MailChimpConnection;
+import com.github.bananaj.utils.DateConverter;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,11 +12,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.ZonedDateTime;
 
-import org.json.JSONObject;
-
-import com.github.bananaj.connection.MailChimpConnection;
-import com.github.bananaj.utils.DateConverter;
-
 /**
  * Class representing one specific file manager file.
  * Created by alexanderweiss on 22.01.16.
@@ -20,253 +19,281 @@ import com.github.bananaj.utils.DateConverter;
  */
 public class FileManagerFile {
 
-	private int id;
-	private int folderId;
-	private FileType type;
-	private String name;
-	private String fullSizeUrl;
-	private String thumbnailUrl;
-	private int size;
-	private ZonedDateTime createdAt;
-	private String createdBy;
-	private int width;
-	private int height;
-	private MailChimpConnection connection;
+    private int id;
+    private int folderId;
+    private FileType type;
+    private String name;
+    private String fullSizeUrl;
+    private String thumbnailUrl;
+    private int size;
+    private ZonedDateTime createdAt;
+    private String createdBy;
+    private int width;
+    private int height;
+    private MailChimpConnection connection;
 
-	private static final int BUFFER_SIZE = 4096;
+    private static final int BUFFER_SIZE = 4096;
 
-	public FileManagerFile(MailChimpConnection connection, JSONObject jsonObj) {
-		parse(connection, jsonObj);
-	}
+    public FileManagerFile(MailChimpConnection connection, JSONObject jsonObj) {
 
-	public FileManagerFile (Builder b){
-		name = b.name;
-		id = b.folderId;
-	}
+        parse(connection, jsonObj);
+    }
 
-	public void parse(MailChimpConnection connection, JSONObject jsonObj) {
-		id = jsonObj.getInt("id");
-		folderId = jsonObj.getInt("folder_id");
-		type = FileType.valueOf(jsonObj.getString("type").toUpperCase());
-		name = jsonObj.getString("name");
-		fullSizeUrl = jsonObj.getString("full_size_url");
-		thumbnailUrl = jsonObj.getString("thumbnail_url");
-		size = jsonObj.getInt("size");
-		createdAt = DateConverter.fromISO8601(jsonObj.getString("created_at"));
-		createdBy = jsonObj.getString("created_by");
-		this.connection = connection;
+    public FileManagerFile(Builder b) {
 
-		if(jsonObj.getString("type").equals("image")) {
-			width = jsonObj.getInt("width");
-			height = jsonObj.getInt("height");
-		}
-	}
+        name = b.name;
+        id = b.folderId;
+    }
 
-	public void update() throws Exception {
-		JSONObject jsonObj = getJsonRepresentation();
-		String results = getConnection().do_Patch(new URL(getConnection().getFilesendpoint()+"/"+getId()), jsonObj.toString(), getConnection().getApikey());
-		parse(connection, new JSONObject(results));
-	}
-	
-	public void delete() throws Exception {
-		getConnection().do_Delete(new URL(getConnection().getFilesendpoint()+"/"+getId()), getConnection().getApikey());
-	}
+    public void parse(MailChimpConnection connection, JSONObject jsonObj) {
 
-	//http://www.codejava.net/java-se/networking/use-httpurlconnection-to-download-file-from-an-http-url
-	public void downloadFile(String saveDir)
-			throws IOException {
-		URL url = new URL(getFullSizeUrl());
-		HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-		int responseCode = httpConn.getResponseCode();
+        id = jsonObj.getInt("id");
+        folderId = jsonObj.getInt("folder_id");
+        type = FileType.valueOf(jsonObj.getString("type").toUpperCase());
+        name = jsonObj.getString("name");
+        fullSizeUrl = jsonObj.getString("full_size_url");
+        thumbnailUrl = jsonObj.getString("thumbnail_url");
+        size = jsonObj.getInt("size");
+        createdAt = DateConverter.fromISO8601(jsonObj.getString("created_at"));
+        createdBy = jsonObj.getString("created_by");
+        this.connection = connection;
 
-		// always check HTTP response code first
-		if (responseCode == HttpURLConnection.HTTP_OK) {
-			String fileName = "";
-			String disposition = httpConn.getHeaderField("Content-Disposition");
-			String contentType = httpConn.getContentType();
-			int contentLength = httpConn.getContentLength();
+        if (jsonObj.getString("type").equals("image")) {
+            width = jsonObj.getInt("width");
+            height = jsonObj.getInt("height");
+        }
+    }
 
-			if (disposition != null) {
-				// extracts file name from header field
-				int index = disposition.indexOf("filename=");
-				if (index > 0) {
-					fileName = disposition.substring(index + 10,
-							disposition.length() - 1);
-				}
-			} else {
-				// extracts file name from URL
-				fileName = getFullSizeUrl().substring(getFullSizeUrl().lastIndexOf("/") + 1,
-						getFullSizeUrl().length());
-			}
+    public void update() throws Exception {
 
-			System.out.println("Content-Type = " + contentType);
-			System.out.println("Content-Disposition = " + disposition);
-			System.out.println("Content-Length = " + contentLength);
-			System.out.println("fileName = " + fileName);
+        JSONObject jsonObj = getJsonRepresentation();
+        String results = getConnection().do_Patch(new URL(getConnection().getFilesendpoint() + "/" + getId()), jsonObj.toString(), getConnection().getApikey());
+        parse(connection, new JSONObject(results));
+    }
 
-			// opens input stream from the HTTP com.github.bananaj.connection
-			InputStream inputStream = httpConn.getInputStream();
-			String saveFilePath = saveDir + File.separator + fileName;
+    public void delete() throws Exception {
 
-			// opens an output stream to save into file
-			FileOutputStream outputStream = new FileOutputStream(saveFilePath);
+        getConnection().do_Delete(new URL(getConnection().getFilesendpoint() + "/" + getId()), getConnection().getApikey());
+    }
 
-			int bytesRead;
-			byte[] buffer = new byte[BUFFER_SIZE];
-			while ((bytesRead = inputStream.read(buffer)) != -1) {
-				outputStream.write(buffer, 0, bytesRead);
-			}
+    //http://www.codejava.net/java-se/networking/use-httpurlconnection-to-download-file-from-an-http-url
+    public void downloadFile(String saveDir)
+            throws IOException {
 
-			outputStream.close();
-			inputStream.close();
+        URL url = new URL(getFullSizeUrl());
+        HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+        int responseCode = httpConn.getResponseCode();
 
-			System.out.println("File downloaded");
-		} else {
-			System.out.println("No file to download. Server replied HTTP code: " + responseCode);
-		}
-		httpConn.disconnect();
-	}
+        // always check HTTP response code first
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            String fileName = "";
+            String disposition = httpConn.getHeaderField("Content-Disposition");
+            String contentType = httpConn.getContentType();
+            int contentLength = httpConn.getContentLength();
 
-	/**
-	 * @return The unique id of the file.
-	 */
-	public int getId() {
-		return id;
-	}
+            if (disposition != null) {
+                // extracts file name from header field
+                int index = disposition.indexOf("filename=");
+                if (index > 0) {
+                    fileName = disposition.substring(index + 10,
+                                                     disposition.length() - 1);
+                }
+            }
+            else {
+                // extracts file name from URL
+                fileName = getFullSizeUrl().substring(getFullSizeUrl().lastIndexOf("/") + 1,
+                                                      getFullSizeUrl().length());
+            }
 
-	/**
-	 * @return The id of the folder.
-	 */
-	public int getFolderId() {
-		return folderId;
-	}
+            System.out.println("Content-Type = " + contentType);
+            System.out.println("Content-Disposition = " + disposition);
+            System.out.println("Content-Length = " + contentLength);
+            System.out.println("fileName = " + fileName);
 
-	/**
-	 * Move file to a different folder. Must call {@link #update()} for change to take effect.
-	 * @param folderId the folderId for the file
-	 */
-	public void setFolderId(int folderId) {
-		this.folderId = folderId;
-	}
+            // opens input stream from the HTTP com.github.bananaj.connection
+            InputStream inputStream = httpConn.getInputStream();
+            String saveFilePath = saveDir + File.separator + fileName;
 
-	/**
-	 * @return The type of file in the File Manager.
-	 */
-	public FileType getType() {
-		return type;
-	}
+            // opens an output stream to save into file
+            FileOutputStream outputStream = new FileOutputStream(saveFilePath);
 
-	/**
-	 * @return The name of the file.
-	 */
-	public String getName() {
-		return name;
-	}
+            int bytesRead;
+            byte[] buffer = new byte[BUFFER_SIZE];
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
 
-	/**
-	 * Rename the file. . Must call {@link #update()} for change to take effect.
-	 * @param name the new file name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+            outputStream.close();
+            inputStream.close();
 
-	/**
-	 * @return The url of the full-size file.
-	 */
-	public String getFullSizeUrl() {
-		return fullSizeUrl;
-	}
+            System.out.println("File downloaded");
+        }
+        else {
+            System.out.println("No file to download. Server replied HTTP code: " + responseCode);
+        }
+        httpConn.disconnect();
+    }
 
-	/**
-	 * @return The url of the thumbnail preview.
-	 */
-	public String getThumbnailUrl() {
-		return thumbnailUrl;
-	}
+    /**
+     * @return The unique id of the file.
+     */
+    public int getId() {
 
-	/**
-	 * @return The size of the file in bytes.
-	 */
-	public int getSize() {
-		return size;
-	}
+        return id;
+    }
 
-	/**
-	 * @return The date and time a file was added to the File Manager
-	 */
-	public ZonedDateTime getCreatedAt() {
-		return createdAt;
-	}
+    /**
+     * @return The id of the folder.
+     */
+    public int getFolderId() {
 
-	/**
-	 * @return The username of the profile that uploaded the file.
-	 */
-	public String getCreatedBy() {
-		return createdBy;
-	}
+        return folderId;
+    }
 
-	/**
-	 * @return The width of the image.
-	 */
-	public int getWidth() {
-		return width;
-	}
+    /**
+     * Move file to a different folder. Must call {@link #update()} for change to take effect.
+     *
+     * @param folderId the folderId for the file
+     */
+    public void setFolderId(int folderId) {
 
-	/**
-	 * @return The height of an image.
-	 */
-	public int getHeight() {
-		return height;
-	}
+        this.folderId = folderId;
+    }
 
-	public MailChimpConnection getConnection() {
-		return connection;
-	}
+    /**
+     * @return The type of file in the File Manager.
+     */
+    public FileType getType() {
 
-	/**
-	 * Helper method to convert JSON for mailchimp PATCH/POST operations
-	 */
-	protected JSONObject getJsonRepresentation() throws Exception {
-		JSONObject jsonObj = new JSONObject();
+        return type;
+    }
 
-		jsonObj.put("name", getName());
-		jsonObj.put("folder_id", getFolderId());
+    /**
+     * @return The name of the file.
+     */
+    public String getName() {
 
-		return jsonObj;
-	}
-	
-	@Override
-	public String toString(){
-		return 
-				"ID: " + getId() +
-				" Name: " + getName() + 
-				" Type: " + getType().toString() + 
-				(getType() == FileType.IMAGE ?  
-					" Width: " + getWidth()+"px " + 
-					" Height: "+ getHeight()+"px" : "" ) +
-				" Folder-Id: " + getId() +
-				" Created: " + DateConverter.toLocalString(getCreatedAt());
-	}
+        return name;
+    }
 
+    /**
+     * Rename the file. . Must call {@link #update()} for change to take effect.
+     *
+     * @param name the new file name to set
+     */
+    public void setName(String name) {
 
-	public static class Builder {
-		private String name;
-		private int folderId;
+        this.name = name;
+    }
 
-		public FileManagerFile.Builder name(String name) {
-			this.name = name;
-			return this;
-		}
+    /**
+     * @return The url of the full-size file.
+     */
+    public String getFullSizeUrl() {
 
-		public FileManagerFile.Builder folder(int folderId) {
-			this.folderId = folderId;
-			return this;
-		}
+        return fullSizeUrl;
+    }
 
-		public FileManagerFile build() {
-			return new FileManagerFile(this);
-		}
-	}
+    /**
+     * @return The url of the thumbnail preview.
+     */
+    public String getThumbnailUrl() {
 
+        return thumbnailUrl;
+    }
+
+    /**
+     * @return The size of the file in bytes.
+     */
+    public int getSize() {
+
+        return size;
+    }
+
+    /**
+     * @return The date and time a file was added to the File Manager
+     */
+    public ZonedDateTime getCreatedAt() {
+
+        return createdAt;
+    }
+
+    /**
+     * @return The username of the profile that uploaded the file.
+     */
+    public String getCreatedBy() {
+
+        return createdBy;
+    }
+
+    /**
+     * @return The width of the image.
+     */
+    public int getWidth() {
+
+        return width;
+    }
+
+    /**
+     * @return The height of an image.
+     */
+    public int getHeight() {
+
+        return height;
+    }
+
+    public MailChimpConnection getConnection() {
+
+        return connection;
+    }
+
+    /**
+     * Helper method to convert JSON for mailchimp PATCH/POST operations
+     */
+    protected JSONObject getJsonRepresentation() throws Exception {
+
+        JSONObject jsonObj = new JSONObject();
+
+        jsonObj.put("name", getName());
+        jsonObj.put("folder_id", getFolderId());
+
+        return jsonObj;
+    }
+
+    @Override
+    public String toString() {
+
+        return
+                "ID: " + getId() +
+                        " Name: " + getName() +
+                        " Type: " + getType().toString() +
+                        (getType() == FileType.IMAGE ?
+                                " Width: " + getWidth() + "px " +
+                                        " Height: " + getHeight() + "px" : "") +
+                        " Folder-Id: " + getId() +
+                        " Created: " + DateConverter.toLocalString(getCreatedAt());
+    }
+
+    public static class Builder {
+
+        private String name;
+        private int folderId;
+
+        public FileManagerFile.Builder name(String name) {
+
+            this.name = name;
+            return this;
+        }
+
+        public FileManagerFile.Builder folder(int folderId) {
+
+            this.folderId = folderId;
+            return this;
+        }
+
+        public FileManagerFile build() {
+
+            return new FileManagerFile(this);
+        }
+    }
 }

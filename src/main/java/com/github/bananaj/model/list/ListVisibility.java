@@ -5,25 +5,27 @@ package com.github.bananaj.model.list;
  */
 public enum ListVisibility {
 
-	PUB("pub"),
-	PRV("prv");
-	
-	private String stringRepresentation;
-	
-	ListVisibility(String stringRepresentation ) {
-		setStringRepresentation(stringRepresentation);
-	}
+    PUB("pub"),
+    PRV("prv");
 
-	@Override
-	public String toString() {
-		return stringRepresentation;
-	}
+    private String stringRepresentation;
 
-	/**
-	 * @param stringRepresentation Set the stringRepresentation for the enum constant.
-	 */
-	private void setStringRepresentation(String stringRepresentation) {
-		this.stringRepresentation = stringRepresentation;
-	}
+    ListVisibility(String stringRepresentation) {
 
+        setStringRepresentation(stringRepresentation);
+    }
+
+    @Override
+    public String toString() {
+
+        return stringRepresentation;
+    }
+
+    /**
+     * @param stringRepresentation Set the stringRepresentation for the enum constant.
+     */
+    private void setStringRepresentation(String stringRepresentation) {
+
+        this.stringRepresentation = stringRepresentation;
+    }
 }

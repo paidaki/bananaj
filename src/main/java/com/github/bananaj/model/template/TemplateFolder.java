@@ -1,10 +1,9 @@
 package com.github.bananaj.model.template;
 
-import java.net.URL;
-
+import com.github.bananaj.connection.MailChimpConnection;
 import org.json.JSONObject;
 
-import com.github.bananaj.connection.MailChimpConnection;
+import java.net.URL;
 
 /**
  * Class for representing a template folder
@@ -12,87 +11,98 @@ import com.github.bananaj.connection.MailChimpConnection;
  */
 public class TemplateFolder {
 
-	private String id;
+    private String id;
     private String name;
     private int count;
-	private MailChimpConnection connection;
+    private MailChimpConnection connection;
 
     public TemplateFolder(MailChimpConnection connection, JSONObject jsonObj) {
-    	parse(connection, jsonObj);
+
+        parse(connection, jsonObj);
     }
 
     private void parse(MailChimpConnection connection, JSONObject jsonObj) {
+
         id = jsonObj.getString("id");
         name = jsonObj.getString("name");
         count = jsonObj.getInt("count");
         this.connection = connection;
     }
 
-	/**
-	 * Commit changes to template fields
-	 */
-	public void update() throws Exception {
-		JSONObject jsonObj = getJsonRepresentation();
-		String results = getConnection().do_Patch(new URL(getConnection().getTemplateendpoint()+"/"+getId()), jsonObj.toString(), getConnection().getApikey() );
-		parse(connection, new JSONObject(results));
-	}
-	
-	/**
-	 * Delete template folder
-	 * @throws Exception
-	 */
-	public void delete() throws Exception {
-		getConnection().do_Delete(new URL(getConnection().getTemplateendpoint()+"/"+getId()), getConnection().getApikey() );
-	}
-	
     /**
-     * 
+     * Commit changes to template fields
+     */
+    public void update() throws Exception {
+
+        JSONObject jsonObj = getJsonRepresentation();
+        String results = getConnection().do_Patch(new URL(getConnection().getTemplateendpoint() + "/" + getId()), jsonObj.toString(),
+                                                  getConnection().getApikey());
+        parse(connection, new JSONObject(results));
+    }
+
+    /**
+     * Delete template folder
+     *
+     * @throws Exception
+     */
+    public void delete() throws Exception {
+
+        getConnection().do_Delete(new URL(getConnection().getTemplateendpoint() + "/" + getId()), getConnection().getApikey());
+    }
+
+    /**
      * @return The name of the folder.
      */
     public String getName() {
+
         return name;
     }
 
     /**
-	 * @return A string that uniquely identifies this template folder.
-	 */
-	public String getId() {
-		return id;
-	}
+     * @return A string that uniquely identifies this template folder.
+     */
+    public String getId() {
 
-	/**
-	 * @param name the template name to set. You must call {@link #update()} for change to take effect.
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+        return id;
+    }
 
-	/**
-     * 
+    /**
+     * @param name the template name to set. You must call {@link #update()} for change to take effect.
+     */
+    public void setName(String name) {
+
+        this.name = name;
+    }
+
+    /**
      * @return The number of templates in the folder.
      */
     public int getCount() {
+
         return count;
     }
 
-	/**
-	 * @return the connection
-	 */
-	public MailChimpConnection getConnection() {
-		return connection;
-	}
+    /**
+     * @return the connection
+     */
+    public MailChimpConnection getConnection() {
 
-	/**
-	 * Helper method to convert JSON for mailchimp PATCH/POST operations
-	 */
-	public JSONObject getJsonRepresentation() throws Exception {
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("name", getName());
-		return jsonObj;
-	}
+        return connection;
+    }
+
+    /**
+     * Helper method to convert JSON for mailchimp PATCH/POST operations
+     */
+    public JSONObject getJsonRepresentation() throws Exception {
+
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("name", getName());
+        return jsonObj;
+    }
 
     @Override
-    public String toString(){
+    public String toString() {
+
         return "Id: " + getId() + " Name: " + getName() + "Count: " + getCount();
     }
 }
