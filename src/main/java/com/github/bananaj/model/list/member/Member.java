@@ -197,7 +197,7 @@ public class Member {
         }
 
         String results = getConnection().do_Put(
-                new URL(connection.getListendpoint() + "/" + getId() + "/members/" + getId()), json.toString(),
+                new URL(connection.getListendpoint() + "/" + getListId() + "/members/" + getId()), json.toString(),
                 connection.getApikey());
         parse(getConnection(), new JSONObject(results)); // update member object with current data
     }
@@ -761,7 +761,7 @@ public class Member {
     public List<MemberTag> getTags(int count, int offset) throws JSONException, MalformedURLException, TransportException, URISyntaxException {
 
         final JSONObject tagsObj = new JSONObject(getConnection().do_Get(new URL(getConnection().getListendpoint() + "/"
-                                                                                         + getId() + "/members/" + subscriberHash(
+                                                                                         + getListId() + "/members/" + subscriberHash(
                 getEmailAddress()) + "/tags" + "?offset=" + offset + "&count=" + count),
                                                                          getConnection().getApikey()));
         // int total_items = tagsObj.getInt("total_items");	// The total number of items matching the query regardless of pagination
@@ -888,7 +888,7 @@ public class Member {
         JSONObject json = getJsonRepresentation();
 
         String results = getConnection().do_Patch(
-                new URL(getConnection().getListendpoint() + "/" + getId() + "/members/" + getId()), json.toString(),
+                new URL(getConnection().getListendpoint() + "/" + getListId() + "/members/" + getId()), json.toString(),
                 connection.getApikey());
         parse(getConnection(), new JSONObject(results)); // update member object with current data
     }

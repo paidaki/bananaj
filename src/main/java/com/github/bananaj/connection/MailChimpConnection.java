@@ -9,6 +9,7 @@ import com.github.bananaj.model.campaign.*;
 import com.github.bananaj.model.filemanager.FileManager;
 import com.github.bananaj.model.list.MailChimpList;
 import com.github.bananaj.model.report.*;
+import com.github.bananaj.model.searchmembers.SearchMembers;
 import com.github.bananaj.model.template.Template;
 import com.github.bananaj.model.template.TemplateFolder;
 import com.github.bananaj.utils.DateConverter;
@@ -44,6 +45,7 @@ public class MailChimpConnection extends Connection {
     private final String filemanagerfolderendpoint;
     private final String filesendpoint;
     private final String reportsendpoint;
+    private final String searchmembersendpoint;
     private Account account;
     private FileManager fileManager;
 
@@ -71,6 +73,7 @@ public class MailChimpConnection extends Connection {
         this.filemanagerfolderendpoint = "https://" + server + ".api.mailchimp.com/3.0/file-manager/folders";
         this.filesendpoint = "https://" + server + ".api.mailchimp.com/3.0/file-manager/files";
         this.reportsendpoint = "https://" + server + ".api.mailchimp.com/3.0/reports";
+        this.searchmembersendpoint = "https://" + server + ".api.mailchimp.com/3.0/search-members";
     }
 
     /**
@@ -1063,6 +1066,21 @@ public class MailChimpConnection extends Connection {
     }
 
     /**
+     * Search for list members
+     *
+     * @param query     The search query used to filter results
+     * @param listId    The unique id for the list (optional)
+     * @throws Exception
+     */
+    public SearchMembers searchMembers(String query, String listId) throws Exception {
+
+        JSONObject jsonSearchMembers = new JSONObject(do_Get(
+                new URL("?query=" + query + (listId == null ? "" : "&list_id=" + listId)), getApikey()));
+
+        return new SearchMembers(this, jsonSearchMembers);
+    }
+
+    /**
      * Get the File/Folder Manager for accessing files and folders in your account.
      */
     public FileManager getFileManager() {
@@ -1160,6 +1178,11 @@ public class MailChimpConnection extends Connection {
     public String getReportsendpoint() {
 
         return reportsendpoint;
+    }
+
+    public String getSearchmembersendpoint() {
+
+        return searchmembersendpoint;
     }
 
     /**
