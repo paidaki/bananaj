@@ -2,7 +2,8 @@ package com.github.bananaj.model.campaign;
 
 import com.github.bananaj.connection.Connection;
 import com.github.bananaj.model.list.segment.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public class CampaignSegmentOpts {
 
-    private final static Logger logger = Logger.getLogger(Connection.class);
+    private final static Logger logger = LogManager.getLogger(Connection.class);
 
     private Integer savedSegmentId;
     private Integer prebuiltSegmentId;

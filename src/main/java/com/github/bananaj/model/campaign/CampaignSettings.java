@@ -6,7 +6,8 @@ package com.github.bananaj.model.campaign;
 
 import com.github.bananaj.connection.Connection;
 import com.github.bananaj.exceptions.CampaignSettingsException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 /**
@@ -16,7 +17,7 @@ import org.json.JSONObject;
  */
 public class CampaignSettings {
 
-    final static Logger logger = Logger.getLogger(Connection.class);
+    private final static Logger logger = LogManager.getLogger(Connection.class);
 
     // Campaign Settings 
     private String subjectLine;

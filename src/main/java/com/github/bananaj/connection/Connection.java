@@ -6,7 +6,8 @@ import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.*;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,7 +23,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class Connection {
 
-    final static Logger logger = Logger.getLogger(Connection.class);
+    private final static Logger logger = LogManager.getLogger(Connection.class);
 
     public String do_Get(URL url, String authorization) throws TransportException, URISyntaxException {
 

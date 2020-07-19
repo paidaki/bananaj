@@ -1,7 +1,8 @@
 package com.github.bananaj.model.list.segment;
 
 import com.github.bananaj.connection.Connection;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public class SegmentOptions {
 
-    private final static Logger logger = Logger.getLogger(Connection.class);
+    private final static Logger logger = LogManager.getLogger(Connection.class);
 
     private MatchType match;
     private List<AbstractCondition> conditions;
